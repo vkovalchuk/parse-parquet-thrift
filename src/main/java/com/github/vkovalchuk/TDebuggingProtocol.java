@@ -104,9 +104,10 @@ class TDebuggingProtocol extends TReadOnlyProtocol {
         throws TException
     {
         indent++;
-        log("List (");
+        TList result = delegate.readListBegin();
+        log("List [" + result.size + "] :=");
         indent++;
-        return delegate.readListBegin();
+        return result;
     }
 
     @Override
