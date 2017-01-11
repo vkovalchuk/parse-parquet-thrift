@@ -147,6 +147,7 @@ public class ParseParquetFooter {
         int totalSize = (int) colMd.getTotalSize();
         byte[] buffer = new byte[totalSize];
         from.readFully(startingPos, buffer, 0, totalSize);
+        System.out.println("    PAGE @" + startingPos + " len: " + totalSize);
 
         System.out.print("    DATA: ");
         for (int i = 0; i < buffer.length; i++) {

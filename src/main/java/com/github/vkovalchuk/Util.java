@@ -7,7 +7,10 @@ import java.util.List;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.parquet.format.ColumnChunk;
 import org.apache.parquet.format.FileMetaData;
+import org.apache.parquet.format.PageHeader;
 import org.apache.parquet.format.RowGroup;
+
+import com.github.vkovalchuk.TDebuggingProtocol.FieldType;
 
 import parquet.org.apache.thrift.TBase;
 import parquet.org.apache.thrift.TException;
@@ -26,15 +29,27 @@ class Util {
      * @throws IOException
      */
     public static FileMetaData readFileMetaData(FSDataInputStream from) throws IOException {
-        TProtocol proto = createProtocol(from, false);
-        return read(proto, new FileMetaData());
+        return read(from, new FileMetaData(), TDebuggingProtocol.ROOT_FMD_TYPE);
+    }
+
+    public static PageHeader readPageHeader(FSDataInputStream from) throws IOException {
+        return read(from, new PageHeader(), TDebuggingProtocol.ROOT_PAGE_TYPE);
+    }
+
+    private static <T extends TBase<?,?>> T read(FSDataInputStream from, T tbase, FieldType root) throws IOException {
+        TDebuggingProtocol proto = new TDebuggingProtocol(new TIOStreamTransport(from), from, root);
+        try {
+          tbase.read(proto);
+          return tbase;
+        } catch (TException e) {
+          throw new IOException("can not read " + tbase.getClass() + ": " + e.getMessage(), e);
+        }
     }
 
     public static TProtocol createProtocol(FSDataInputStream from, boolean debugging)
         throws IOException
     {
-        return debugging ? new TDebuggingProtocol(new TIOStreamTransport(from), from) :
-            new TCompactProtocol(new TIOStreamTransport(from));
+        return new TCompactProtocol(new TIOStreamTransport(from));
     }
 
     public static FileMetaData readColumnChunkFileMetaData(TProtocol proto, String colName) throws IOException {
@@ -115,15 +130,6 @@ class Util {
 
     private static void skip(TProtocol iprot, byte type) throws TException {
         parquet.org.apache.thrift.protocol.TProtocolUtil.skip(iprot, type);
-    }
-
-    public static <T extends TBase<?,?>> T read(TProtocol proto, T tbase) throws IOException {
-        try {
-          tbase.read(proto);
-          return tbase;
-        } catch (TException e) {
-          throw new IOException("can not read " + tbase.getClass() + ": " + e.getMessage(), e);
-        }
     }
 
 }

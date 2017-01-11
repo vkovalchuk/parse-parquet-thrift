@@ -5,7 +5,7 @@
 
     <groupId>com.github.vkovalchuk</groupId>
     <artifactId>parquet-struct</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>Parquet file structure parser</name>
 
     <properties>
@@ -14,6 +14,7 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>

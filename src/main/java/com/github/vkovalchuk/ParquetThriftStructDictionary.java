@@ -125,6 +125,52 @@ class ParquetThriftStructDictionary {
         ENUMTYPES.put("Encoding", enumEncoding);
     }
 
+    static {
+        Map<Integer, String> dictPageHeader = new HashMap<>();
+        dictPageHeader.put(1, "type: PageType");
+        dictPageHeader.put(2, "uncompressed_page_size: i32");
+        dictPageHeader.put(3, "compressed_page_size: i32");
+        dictPageHeader.put(4, "crc: i32");
+        dictPageHeader.put(5, "data_page_header: DataPageHeader");
+        dictPageHeader.put(6, "index_page_header: IndexPageHeader");
+        dictPageHeader.put(7, "dictionary_page_header: DictionaryPageHeader");
+        dictPageHeader.put(8, "data_page_header_v2: DataPageHeaderV2");
+        DICTIONARY.put("PageHeader", dictPageHeader);
+
+        Map<Integer, String> dictDataPageHeader = new HashMap<>();
+        dictDataPageHeader.put(1, "num_values: i32");
+        dictDataPageHeader.put(2, "encoding: Encoding");
+        dictDataPageHeader.put(3, "definition_level_encoding: Encoding");
+        dictDataPageHeader.put(4, "repetition_level_encoding: Encoding");
+        dictDataPageHeader.put(5, "statistics: Statistics");
+        DICTIONARY.put("DataPageHeader", dictDataPageHeader);
+
+        Map<Integer, String> dictDictionaryPageHeader = new HashMap<>();
+        dictDictionaryPageHeader.put(1, "num_values: i32");
+        dictDictionaryPageHeader.put(2, "encoding: Encoding");
+        dictDictionaryPageHeader.put(3, "is_sorted: boolean");
+        DICTIONARY.put("DictionaryPageHeader", dictDictionaryPageHeader);
+
+        Map<Integer, String> dictDataPageHeaderV2 = new HashMap<>();
+        dictDataPageHeaderV2.put(1, "num_values: i32");
+        dictDataPageHeaderV2.put(2, "num_nulls: i32");
+        dictDataPageHeaderV2.put(3, "num_rows: i32");
+        dictDataPageHeaderV2.put(4, "encoding: Encoding");
+        dictDataPageHeaderV2.put(5, "definition_levels_byte_length: i32");
+        dictDataPageHeaderV2.put(6, "repetition_levels_byte_length: i32");
+        dictDataPageHeaderV2.put(7, "is_compressed: boolean");
+        dictDataPageHeaderV2.put(8, "statistics: Statistics");
+        DICTIONARY.put("dictDataPageHeaderV2", dictDataPageHeaderV2);
+    }
+    static {
+        Map<Integer, String> enumPageType = new HashMap<>();
+        enumPageType.put(0, "DATA_PAGE");
+        enumPageType.put(1, "INDEX_PAGE");
+        enumPageType.put(2, "DICTIONARY_PAGE");
+        enumPageType.put(3, "DATA_PAGE_V2");
+        ENUMTYPES.put("PageType", enumPageType);
+    }
+
     public String getEnumName(String enumType, int enumValue) {
         return ENUMTYPES.getOrDefault(enumType, empty).getOrDefault(enumValue, "???" + enumValue);
     }

@@ -48,7 +48,7 @@ public class PrintColumnData {
         log("Found ColumnChunk for " + columnName + ": offset " + file_offset + ", codec: " + codec);
 
         from.seek(file_offset);
-        PageHeader ph = Util.read(proto, new PageHeader());
-
+        PageHeader ph = Util.readPageHeader(from);
+        log(ph.toString());
     }
 }

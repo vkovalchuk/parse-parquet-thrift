@@ -25,10 +25,11 @@ class TDebuggingProtocol extends TReadOnlyProtocol {
             this.name = name; this.isList = isList;
         }
         public boolean isStandard() {
-            return name.equals("i32") || name.equals("i64") || name.equals("string");
+            return name.equals("i32") || name.equals("i64") || name.equals("string") || name.equals("boolean");
         }
     }
-    private static final FieldType ROOT_TYPE = new FieldType("FileMetaData", false);
+    public static final FieldType ROOT_FMD_TYPE = new FieldType("FileMetaData", false);
+    public static final FieldType ROOT_PAGE_TYPE = new FieldType("PageHeader", false);
 
     private static final ParquetThriftStructDictionary dict = new ParquetThriftStructDictionary();
 
@@ -39,12 +40,12 @@ class TDebuggingProtocol extends TReadOnlyProtocol {
     private int indent = 0;
     private Stack<FieldType> structs = new Stack<>();
 
-    public TDebuggingProtocol(TTransport transport, FSDataInputStream from) throws IOException {
+    public TDebuggingProtocol(TTransport transport, FSDataInputStream from, FieldType root) throws IOException {
       super(transport);
       delegate = new TCompactProtocol(transport);
       this.from = from;
       startingPos = from.getPos();
-      structs.push(ROOT_TYPE);
+      structs.push(root);
     }
 
     void log(String msg) {
@@ -104,10 +105,9 @@ class TDebuggingProtocol extends TReadOnlyProtocol {
         throws TException
     {
         indent++;
-        TList result = delegate.readListBegin();
-        log("List [" + result.size + "] :=");
+        log("List (");
         indent++;
-        return result;
+        return delegate.readListBegin();
     }
 
     @Override
