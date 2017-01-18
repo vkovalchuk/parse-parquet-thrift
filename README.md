@@ -50,16 +50,16 @@ java -classpath target\parquet-struct-jar-with-dependencies.jar com.github.vkova
 * Parsing of the FileMetaData is minimal, only required objects.
 
 ### Sample output (wrapped)
-> Tue Jan 17 16:41:50 MSK 2017: PageHeader(type:DATA_PAGE,
->  uncompressed_page_size:408,
->  compressed_page_size:202,
->  data_page_header:DataPageHeader(num_values:51,
-> 	 encoding:PLAIN,
-> 	 definition_level_encoding:BIT_PACKED,
-> 	 repetition_level_encoding:BIT_PACKED,
-> 	 statistics:Statistics(max:00 00 00 00 00 00 59 40, min:00 00 00 00 00 00 49 40,
-> 	 null_count:0
-> )))
+> Tue Jan 17 16:41:50 MSK 2017: PageHeader(type:DATA_PAGE,  
+>  uncompressed_page_size:408,  
+>  compressed_page_size:202,  
+>  data_page_header:DataPageHeader(num_values:51,  
+> 	 encoding:PLAIN,  
+> 	 definition_level_encoding:BIT_PACKED,  
+> 	 repetition_level_encoding:BIT_PACKED,  
+> 	 statistics:Statistics(max:00 00 00 00 00 00 59 40, min:00 00 00 00 00 00 49 40,  
+> 	 null_count:0  
+> )))  
 
 ## ParsePage
 * Similar to PrintColumnData but uses page offset, not column name;
@@ -70,17 +70,17 @@ java -classpath target\parquet-struct-jar-with-dependencies.jar com.github.vkova
 * Uses ParquetReader API to open specified file, throws Exception from double value consumer.
 
 ### Output
-> Exception in thread "main" org.apache.parquet.io.ParquetDecodingException: Can not read value at 1 in block 0 in fi
->         at org.apache.parquet.hadoop.InternalParquetRecordReader.nextKeyValue(InternalParquetRecordReader.java:243)
->         at org.apache.parquet.hadoop.ParquetReader.read(ParquetReader.java:125)
->         at org.apache.parquet.hadoop.ParquetReader.read(ParquetReader.java:129)
->         at com.github.vkovalchuk.DebugRead.main(DebugRead.java:33)
-> Caused by: java.lang.RuntimeException: addDouble() called!
->         at com.github.vkovalchuk.ArrayReadSupport$ArrayRecordMaterializer$1$1.addDouble(DebugRead.java:66)
->         at org.apache.parquet.column.impl.ColumnReaderImpl$2$2.writeValue(ColumnReaderImpl.java:234)
->         at org.apache.parquet.column.impl.ColumnReaderImpl.writeCurrentValueToConverter(ColumnReaderImpl.java:371)
->         at org.apache.parquet.io.RecordReaderImplementation.read(RecordReaderImplementation.java:405)
->         at org.apache.parquet.hadoop.InternalParquetRecordReader.nextKeyValue(InternalParquetRecordReader.java:218)
->         ... 3 more
+> Exception in thread "main" org.apache.parquet.io.ParquetDecodingException: Can not read value at 1 in block 0 in fi  
+>         at org.apache.parquet.hadoop.InternalParquetRecordReader.nextKeyValue(InternalParquetRecordReader.java:243)  
+>         at org.apache.parquet.hadoop.ParquetReader.read(ParquetReader.java:125)  
+>         at org.apache.parquet.hadoop.ParquetReader.read(ParquetReader.java:129)  
+>         at com.github.vkovalchuk.DebugRead.main(DebugRead.java:33)  
+> Caused by: java.lang.RuntimeException: addDouble() called!  
+>         at com.github.vkovalchuk.ArrayReadSupport$ArrayRecordMaterializer$1$1.addDouble(DebugRead.java:66)  
+>         at org.apache.parquet.column.impl.ColumnReaderImpl$2$2.writeValue(ColumnReaderImpl.java:234)  
+>         at org.apache.parquet.column.impl.ColumnReaderImpl.writeCurrentValueToConverter(ColumnReaderImpl.java:371)  
+>         at org.apache.parquet.io.RecordReaderImplementation.read(RecordReaderImplementation.java:405)  
+>         at org.apache.parquet.hadoop.InternalParquetRecordReader.nextKeyValue(InternalParquetRecordReader.java:218)  
+>         ... 3 more  
 
 * (TODO) Then intended to verify that ReadColumnar prints correct set of values.
