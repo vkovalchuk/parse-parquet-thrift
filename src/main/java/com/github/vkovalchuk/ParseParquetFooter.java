@@ -106,7 +106,10 @@ public class ParseParquetFooter {
                     ColumnChunkMetaData colMd = columns.get(colIndex);
                     printColumnMetadata(colName, colIndex, colMd);
                     if (firstBlock) {
-                        printData(colMd, from);
+                        long startingPos = colMd.getStartingPos();
+                        int totalSize = (int) colMd.getTotalSize();
+                        CompressionCodecName codec = colMd.getCodec();
+                        printData(startingPos, totalSize, codec, from);
                     }
                     firstBlock = false;
                 }
@@ -142,9 +145,9 @@ public class ParseParquetFooter {
                 ", codec: " + colMd.getCodec() + ", enc: " + colMd.getEncodings());
     }
 
-    public static void printData(ColumnChunkMetaData colMd, FSDataInputStream from) throws IOException {
-        long startingPos = colMd.getStartingPos();
-        int totalSize = (int) colMd.getTotalSize();
+    public static void printData(long startingPos, int totalSize, CompressionCodecName codec, FSDataInputStream from)
+            throws IOException
+    {
         byte[] buffer = new byte[totalSize];
         from.readFully(startingPos, buffer, 0, totalSize);
         System.out.println("    PAGE @" + startingPos + " len: " + totalSize);
@@ -155,7 +158,7 @@ public class ParseParquetFooter {
         }
         System.out.println();
 
-        if (colMd.getCodec() == CompressionCodecName.SNAPPY) {
+        if (codec == CompressionCodecName.SNAPPY) {
             SnappyCodec c = new SnappyCodec();
             CompressionInputStream is = c.createInputStream(new ByteArrayInputStream(buffer));
             byte[] out = new byte[buffer.length];
