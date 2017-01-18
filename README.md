@@ -13,36 +13,36 @@ java -classpath target\parquet-struct-jar-with-dependencies.jar com.github.vkova
 
 ### Sample output
 
-> @        0: struct FileMetaData {
-> @        1:   field version: i32 =
-> @        2:     i32: 1
-> @        3:   field schema: List SchemaElement =
-> @        3:     List (
-> @        5:       struct SchemaElement {
-> @        6:         field name: string =
-> @       47:           string: bda46dae-7fc5-42b3-a6d4-4dee6c64146c-5-0
-> @       48:         field num_children: i32 =
-> @       50:           i32: 90
-> @       51:       }
-> @       51:       struct SchemaElement {
-> @       52:         field type: Type =
-> @       53:             DOUBLE
-> @       54:         field repetition_type: FieldRepetitionType =
-> @       55:             required
-> @       56:         field name: string =
-> @       61:           string: time
-> @       62:       }
-> ...
-> @     8912:       } RowGroup
-> @     8912:     )
-> @     8913:   field created_by: string =
-> @     8938:     string: parquet-mr version 1.6.0
-> @     8939: } FileMetaData
-> Tue Jan 17 16:24:08 MSK 2017: Converting FileMetadata, wait...
-> Tue Jan 17 16:24:08 MSK 2017:   pmd.FMD.CreatedBy: parquet-mr version 1.6.0
-> Tue Jan 17 16:24:08 MSK 2017:   pmd.FMD.KVMD: {}
-> Tue Jan 17 16:24:08 MSK 2017:   Total pmd.Blocks: 1
-> Tue Jan 17 16:24:08 MSK 2017: Block: start: 4, rows: 47, cols: 87, total sz: 36367, compressed sz: 6342
+> @        0: struct FileMetaData {  
+> @        1:   field version: i32 =  
+> @        2:     i32: 1  
+> @        3:   field schema: List SchemaElement =  
+> @        3:     List (  
+> @        5:       struct SchemaElement {  
+> @        6:         field name: string =  
+> @       47:           string: bda46dae-7fc5-42b3-a6d4-4dee6c64146c-5-0  
+> @       48:         field num_children: i32 =  
+> @       50:           i32: 90  
+> @       51:       }  
+> @       51:       struct SchemaElement {  
+> @       52:         field type: Type =  
+> @       53:             DOUBLE   
+> @       54:         field repetition_type: FieldRepetitionType =  
+> @       55:             required  
+> @       56:         field name: string =  
+> @       61:           string: time  
+> @       62:       }  
+> ...  
+> @     8912:       } RowGroup  
+> @     8912:     )  
+> @     8913:   field created_by: string =  
+> @     8938:     string: parquet-mr version 1.6.0  
+> @     8939: } FileMetaData  
+> Tue Jan 17 16:24:08 MSK 2017: Converting FileMetadata, wait...  
+> Tue Jan 17 16:24:08 MSK 2017:   pmd.FMD.CreatedBy: parquet-mr version 1.6.0  
+> Tue Jan 17 16:24:08 MSK 2017:   pmd.FMD.KVMD: {}  
+> Tue Jan 17 16:24:08 MSK 2017:   Total pmd.Blocks: 1  
+> Tue Jan 17 16:24:08 MSK 2017: Block: start: 4, rows: 47, cols: 87, total sz: 36367, compressed sz: 6342  
 
 ## PrintColumnData
 * Usage: PrintColumnData parquet_file_name column_name;
